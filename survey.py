@@ -4,7 +4,6 @@ from surveymaker import prepareSurvey
 
 app = Flask(__name__)
 
-
 @app.route('/')
 def hello_world():
     return 'Yeah, it works!!!'
