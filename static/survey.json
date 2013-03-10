@@ -1,0 +1,49 @@
+{
+    "survey" :
+    [
+        {
+            "id": 0,
+            "sections" :
+            [
+                {
+                    "question": "How are you today?",
+                    "answer":
+                    {
+                        "type" : "text-area"
+                    }
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "sections" :
+            [
+                {
+                    "question": "Do you have a car?",
+                    "answer":
+                    {
+                        "type" : "radio",
+                        "options": ["Yes", "No"],
+                        "action": { "Yes": "js:showSections([1, 2])"}
+                    }
+                },
+                {
+                    "question": "What is your car's model?",
+                    "answer":
+                    {
+                        "type" : "select",
+                        "values": "js:getCarModels()"
+                    }
+                },
+                {
+                    "question": "When was your car manufactured?",
+                    "answer":
+                    {
+                        "type" : "select",
+                        "values": "js:getYears()"
+                    }
+                }
+            ]
+        }
+    ]
+}

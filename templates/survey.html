@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+    <title>Survey</title>
+    <link type="text/css" rel="stylesheet" href="../static/survey.css" />
+</head>
+<body>
+    <h1>Gil's Big Survey</h1>
+    <form name="survey" action="submitSurvey" method="post">
+        <!-- question 0 -->
+        <div class="question_container">
+            <div class="question_section">
+                <p>0. What's your name?</p>
+                <input id="q0_name" type="text" name="q0" autofocus="yes" placeholder="Tom Cruise" />
+            </div>
+        </div>
+
+        <!-- question 1 + 1b -->
+        <div class="question_container">
+            <div class="question_section">
+                <p>1. Do you have a car?</p>
+                <input id="q1_yes" type="radio" name="q1" value="Yes">Yes</input>
+                <input id="q1_no" type="radio" name="q1" value="No">No</input>
+            </div>
+            <div id="q1b_section" class="question_section hidden">
+                <p>1B. "What is your car's model?"</p>
+                <select name="q1b">
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- question 2 - multi-select with check boxes -->
+{#        <INPUT NAME="options" TYPE="CHECKBOX" VALUE="o1">
+        Option 1<BR>
+        <INPUT NAME="options" TYPE="CHECKBOX" VALUE="o2">
+        Option 2<BR>
+        <INPUT NAME="options" TYPE="CHECKBOX" VALUE="o3">#}
+
+        <!-- submit button -->
+        <br />
+        <input type="submit" value="Submit Survey" />
+    </form>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/survey.js"></script>
+</body>
+</html>
