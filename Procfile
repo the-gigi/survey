@@ -1,1 +1,1 @@
-web: python Surveys.py
+web: python survey.py
