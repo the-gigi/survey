@@ -22,5 +22,9 @@ def process_survey():
     return str(request.form)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=int(os.environ.get('PORT', 5000)))
+    port = int(os.environ.get('PORT', -1))
+    if port == -1:
+        app.run(debug=True, port=5000)
+    else:
+        app.run(debug=True, host='http://0.0.0.0', port=port)
 
