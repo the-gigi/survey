@@ -3,23 +3,23 @@
     [
         {
             "id": 0,
-            "sections" :
+            "questions" :
             [
                 {
-                    "question": "How are you today?",
+                    "question": "What's your name?",
                     "answer":
                     {
-                        "type" : "text-area"
+                        "type" : "text"
                     }
                 }
             ]
         },
         {
             "id": 1,
-            "sections" :
+            "questions" :
             [
                 {
-                    "question": "Do you have a car?",
+                    "text": "Do you have a car?",
                     "answer":
                     {
                         "type" : "radio",
@@ -28,19 +28,19 @@
                     }
                 },
                 {
-                    "question": "What is your car's model?",
+                    "text": "What is your car's model?",
                     "answer":
                     {
                         "type" : "select",
-                        "values": "js:getCarModels()"
+                        "options": "js:getCarModels()"
                     }
                 },
                 {
-                    "question": "When was your car manufactured?",
+                    "text": "When was your car manufactured?",
                     "answer":
                     {
                         "type" : "select",
-                        "values": "js:getYears()"
+                        "options": "js:getYears()"
                     }
                 }
             ]

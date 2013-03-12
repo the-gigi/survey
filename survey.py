@@ -1,5 +1,12 @@
 import os
-from flask import Flask, request, url_for, render_template
+from flask import ( Flask,
+                    request,
+                    url_for,
+                    render_template,
+                    jsonify)
+
+from data import cars
+
 from surveymaker import prepareSurvey
 
 app = Flask(__name__)
@@ -20,6 +27,14 @@ def survey():
 @app.route('/submitSurvey', methods = ['POST'])
 def process_survey():
     return str(request.form)
+
+@app.route('/survey/car/makes')
+def carMakes():
+    return jsonify(makes=cars.keys())
+
+@app.route('/survey/car/models/<make>')
+def carModels(make):
+    return jsonify(models=cars[make])
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', -1))

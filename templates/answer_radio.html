@@ -1,0 +1,3 @@
+{% for option in options %}
+    <input id="{{ option.id }}" type="radio" name="{{ name }}" value="{{ option.value }}">{{ option.value }}</input>
+{% endfor %}

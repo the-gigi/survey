@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <!-- question 1 + 1b -->
+        <!-- question 1 + 1b + 1c -->
         <div class="question_container">
             <div class="question_section">
                 <p>1. Do you have a car?</p>
@@ -22,7 +22,16 @@
                 <input id="q1_no" type="radio" name="q1" value="No">No</input>
             </div>
             <div id="q1b_section" class="question_section hidden">
-                <p>1B. "What is your car's model?"</p>
+                <p>1B. "What is the make of your car?"</p>
+                <select name="q1b">
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+                </select>
+            </div>
+            <div id="q1c_section" class="question_section hidden">
+                <p>1B. "What is the model of your car?"</p>
                 <select name="q1b">
                     <option value="volvo">Volvo</option>
                     <option value="saab">Saab</option>
@@ -31,6 +40,9 @@
                 </select>
             </div>
         </div>
+
+
+
 
         <!-- question 2 - multi-select with check boxes -->
 {#        <INPUT NAME="options" TYPE="CHECKBOX" VALUE="o1">
