@@ -28,19 +28,19 @@
                     }
                 },
                 {
-                    "text": "What is your car's model?",
+                    "text": "What is the make of your car?",
+                    "answer":
+                    {
+                        "type" : "select",
+                        "options": "js:getCarMakes()"
+                    }
+                },
+                {
+                    "text": "What is the model of your car?",
                     "answer":
                     {
                         "type" : "select",
                         "options": "js:getCarModels()"
-                    }
-                },
-                {
-                    "text": "When was your car manufactured?",
-                    "answer":
-                    {
-                        "type" : "select",
-                        "options": "js:getYears()"
                     }
                 }
             ]
