@@ -8,35 +8,52 @@ function handle_q1_radio_click(id)
         return false;
 
     q1_selected = id;
-    console.log('Not selected yet');
     $('#q1b_section').toggleClass('hidden');
+    $('#q1c_section').addClass('hidden');
     return true;
 }
 
+$('#q1_yes').click(function()
+{
+    console.log("Loading makes...")
+    // load makes
+    $.getJSON("/survey/car/makes",{ ajax: 'true' }, function(response)
+    {
+        var makes = response["makes"];
+        var options = '';
+        for (var i = 0; i < makes.length; i++)
+        {
+            var option = '<option value="' + makes[i] + '">' + makes[i] + '</option>';
+            console.log('option ' + i + ': ' + option);
+            options += option
+        }
+        $("select#q1b").html(options);
+    })
 
-$('#q1_yes').click(function() { handle_q1_radio_click('q1_yes'); });
+    handle_q1_radio_click('q1_yes');
+});
 $('#q1_no').click(function() { handle_q1_radio_click('q1_no'); });
 $('#q1_no').attr('checked', 'checked');
-//$('#q1_yes').click(function()
-//{
-//    if (q1_selected == 'q1_yes')
-//        return false;
-//
-//    q1_selected = 'q1_yes';
-//    console.log('Not selected yet');
-//    $('#q1b_section').toggleClass('hidden');
-//    return true;
-//});
 
-//$('#q1_no').click(function()
-//{
-//    if (q1_selected == 'q1_no')
-//        return false;
-//
-//    q1_selected = 'q1_no';
-//    $('#q1b_section').toggleClass('hidden');
-//    return true;
-//});
+$("select#q1b").change(function()
+{
+    console.log("make selected")
+    $.getJSON("/survey/car/models/" + $(this).val(),{ajax: 'true'}, function(response)
+    {
+        var models = response["models"];
+        var options = '';
+        for (var i = 0; i < models.length; i++)
+        {
+            options += '<option value="' + models[i] + '">' + models[i] + '</option>';
+        }
+        $("select#q1c").html(options);
+        $('#q1c_section').removeClass('hidden');
+    })
+});
 
+$("input#submitButton").click(function()
+{
+    $('form#survey').submit();
+});
 
 

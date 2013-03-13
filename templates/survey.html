@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Gil's Big Survey</h1>
-    <form name="survey" action="submitSurvey" method="post">
+    <form id="survey" name="survey" action="submitSurvey" method="post">
         <!-- question 0 -->
         <div class="question_container">
             <div class="question_section">
@@ -23,37 +23,36 @@
             </div>
             <div id="q1b_section" class="question_section hidden">
                 <p>1B. "What is the make of your car?"</p>
-                <select name="q1b">
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
+                <select id="q1b" name="q1b">
+{#                    <option value="volvo">Volvo</option>#}
+{#                    <option value="saab">Saab</option>#}
+{#                    <option value="opel">Opel</option>#}
+{#                    <option value="audi">Audi</option>#}
                 </select>
             </div>
             <div id="q1c_section" class="question_section hidden">
                 <p>1B. "What is the model of your car?"</p>
-                <select name="q1b">
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
+                <select id="q1c" name="q1c">
+{#                    <option value="volvo">Volvo</option>#}
+{#                    <option value="saab">Saab</option>#}
+{#                    <option value="opel">Opel</option>#}
+{#                    <option value="audi">Audi</option>#}
                 </select>
             </div>
         </div>
 
-
-
-
         <!-- question 2 - multi-select with check boxes -->
-{#        <INPUT NAME="options" TYPE="CHECKBOX" VALUE="o1">
-        Option 1<BR>
-        <INPUT NAME="options" TYPE="CHECKBOX" VALUE="o2">
-        Option 2<BR>
-        <INPUT NAME="options" TYPE="CHECKBOX" VALUE="o3">#}
-
+        <div>
+            <input name="options" type="checkbox" value="o1">
+            Option 1
+            <input name="options" type="checkbox" value="o2">
+            Option 2
+            <input name="options" type="checkbox" value="o3">
+            Option 3
+        </div>
         <!-- submit button -->
         <br />
-        <input type="submit" value="Submit Survey" />
+        <input id="submitButton" type="submit" value="Submit Survey" />
     </form>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="../static/survey.js"></script>

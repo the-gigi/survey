@@ -24,15 +24,17 @@
                     {
                         "type" : "radio",
                         "options": ["Yes", "No"],
-                        "action": { "Yes": "js:showSections([1, 2])"}
+                        "action": { "Yes": "js:showSections([1])"}
                     }
                 },
                 {
+                    "tag": "make",
                     "text": "What is the make of your car?",
                     "answer":
                     {
                         "type" : "select",
-                        "options": "js:getCarMakes()"
+                        "options": "/survey/cars/makes",
+                        "action": { "*": "js:showSections([2])" }
                     }
                 },
                 {
@@ -40,7 +42,7 @@
                     "answer":
                     {
                         "type" : "select",
-                        "options": "js:getCarModels()"
+                        "options": "/survey/cars/models/<make.value>"
                     }
                 }
             ]
