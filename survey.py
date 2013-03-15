@@ -7,7 +7,7 @@ from flask import ( Flask,
 
 from data import cars
 
-from surveymaker import prepareSurvey
+from surveymaker import prepare_survey
 
 app = Flask(__name__)
 
@@ -17,12 +17,10 @@ def hello_world():
 
 @app.route('/survey')
 def survey():
-    print app.static_folder
-    # json_file = url_for('static', filename='survey.json')
-    # assert os.path.exists(json_file)
-    # survey =  prepareSurvey(json_file)
+    survey = prepare_survey('static\survey.json')
+    return survey
 
-    return render_template('survey.html')
+    #return render_template('survey.html')
 
 @app.route('/submitSurvey', methods = ['POST'])
 def process_survey():

@@ -6,50 +6,16 @@
 <body>
     <h1>Gil's Big Survey</h1>
     <form id="survey" name="survey" action="submitSurvey" method="post">
-        <!-- question 0 -->
-        <div class="question_container">
-            <div class="question_section">
-                <p>0. What's your name?</p>
-                <input id="q0_name" type="text" name="q0" autofocus="yes" placeholder="Tom Cruise" />
+        {%  for group in question_groups -%}
+        <div class="question_group">
+            {%  for question in group -%}
+            <div id="q{{question.id}}" class="question">
+                <p>{{ question.id }}. {{ question.text }}</p>
+                {{ question.answer|indent }}
             </div>
+            {%  endfor %}
         </div>
-
-        <!-- question 1 + 1b + 1c -->
-        <div class="question_container">
-            <div class="question_section">
-                <p>1. Do you have a car?</p>
-                <input id="q1_yes" type="radio" name="q1" value="Yes">Yes</input>
-                <input id="q1_no" type="radio" name="q1" value="No">No</input>
-            </div>
-            <div id="q1b_section" class="question_section hidden">
-                <p>1B. "What is the make of your car?"</p>
-                <select id="q1b" name="q1b">
-{#                    <option value="volvo">Volvo</option>#}
-{#                    <option value="saab">Saab</option>#}
-{#                    <option value="opel">Opel</option>#}
-{#                    <option value="audi">Audi</option>#}
-                </select>
-            </div>
-            <div id="q1c_section" class="question_section hidden">
-                <p>1B. "What is the model of your car?"</p>
-                <select id="q1c" name="q1c">
-{#                    <option value="volvo">Volvo</option>#}
-{#                    <option value="saab">Saab</option>#}
-{#                    <option value="opel">Opel</option>#}
-{#                    <option value="audi">Audi</option>#}
-                </select>
-            </div>
-        </div>
-
-        <!-- question 2 - multi-select with check boxes -->
-        <div>
-            <input name="options" type="checkbox" value="o1">
-            Option 1
-            <input name="options" type="checkbox" value="o2">
-            Option 2
-            <input name="options" type="checkbox" value="o3">
-            Option 3
-        </div>
+        {%  endfor %}
         <!-- submit button -->
         <br />
         <input id="submitButton" type="submit" value="Submit Survey" />
