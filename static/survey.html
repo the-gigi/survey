@@ -7,48 +7,40 @@
     <h1>Gil's Big Survey</h1>
     <form id="survey" name="survey" action="submitSurvey" method="post">
         <!-- question 0 -->
-        <div class="question_container">
-            <div class="question_section">
+        <div class="question-group">
+            <div class="question">
                 <p>0. What's your name?</p>
-                <input id="q0_name" type="text" name="q0" autofocus="yes" placeholder="Tom Cruise" />
+                <input id="q0" type="text" name="q0" autofocus="yes" placeholder="Tom Cruise" />
             </div>
         </div>
 
-        <!-- question 1 + 1b + 1c -->
-        <div class="question_container">
-            <div class="question_section">
+        <!-- question 1 + 1_1 + 1_2 -->
+        <div class="question-group">
+            <div class="question">
                 <p>1. Do you have a car?</p>
                 <input id="q1_yes" type="radio" name="q1" value="Yes">Yes</input>
                 <input id="q1_no" type="radio" name="q1" value="No">No</input>
             </div>
-            <div id="q1b_section" class="question_section hidden">
-                <p>1B. "What is the make of your car?"</p>
-                <select id="q1b" name="q1b">
-{#                    <option value="volvo">Volvo</option>#}
-{#                    <option value="saab">Saab</option>#}
-{#                    <option value="opel">Opel</option>#}
-{#                    <option value="audi">Audi</option>#}
+            <div id="q1_1_section" class="question hidden">
+                <p>1-1. "What is the make of your car?"</p>
+                <select id="q1_1" name="q1_1">
                 </select>
             </div>
-            <div id="q1c_section" class="question_section hidden">
-                <p>1B. "What is the model of your car?"</p>
-                <select id="q1c" name="q1c">
-{#                    <option value="volvo">Volvo</option>#}
-{#                    <option value="saab">Saab</option>#}
-{#                    <option value="opel">Opel</option>#}
-{#                    <option value="audi">Audi</option>#}
+            <div id="q1_2_section" class="question hidden">
+                <p>1-2. "What is the model of your car?"</p>
+                <select id="q1_2" name="q1_2">
                 </select>
             </div>
         </div>
 
         <!-- question 2 - multi-select with check boxes -->
-        <div>
-            <input name="options" type="checkbox" value="o1">
-            Option 1
-            <input name="options" type="checkbox" value="o2">
-            Option 2
-            <input name="options" type="checkbox" value="o3">
-            Option 3
+        <div class="question-group">
+            <div class="question">
+                <p>2. Does your car have?</p>
+                <input name="q2" type="checkbox" value="AC">AC</input>
+                <input name="q2" type="checkbox" value="Radio">Radio</input>
+                <input name="q2" type="checkbox" value="Sun Roof">Sun Roof</input>
+            </div>
         </div>
         <!-- submit button -->
         <br />

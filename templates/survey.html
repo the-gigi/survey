@@ -7,9 +7,9 @@
     <h1>Gil's Big Survey</h1>
     <form id="survey" name="survey" action="submitSurvey" method="post">
         {%  for group in question_groups -%}
-        <div class="question_group">
-            {%  for question in group -%}
-            <div id="q{{question.id}}" class="question">
+        <div id="g{{group.id}}" class="question_group {{ 'hidden' if group.hidden else '' }}">
+            {%  for question in group.questions -%}
+            <div id="q{{question.id}}" class="question {{ 'hidden' if question.hidden else '' }}">
                 <p>{{ question.id }}. {{ question.text }}</p>
                 {{ question.answer|indent }}
             </div>

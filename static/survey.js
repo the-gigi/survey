@@ -8,8 +8,10 @@ function handle_q1_radio_click(id)
         return false;
 
     q1_selected = id;
-    $('#q1_1_section').toggleClass('hidden');
-    $('#q1_2_section').addClass('hidden');
+    $('#q1_1').toggleClass('hidden');
+    $('#q1_2').addClass('hidden');
+    $('#q2').toggleClass('hidden');
+
     return true;
 }
 
@@ -27,7 +29,7 @@ $('#q1_yes').click(function()
             console.log('option ' + i + ': ' + option);
             options += option
         }
-        $("select#q1_1").html(options);
+        $("select#q1_1_select").html(options);
     })
 
     handle_q1_radio_click('q1_yes');
@@ -35,7 +37,7 @@ $('#q1_yes').click(function()
 $('#q1_no').click(function() { handle_q1_radio_click('q1_no'); });
 $('#q1_no').attr('checked', 'checked');
 
-$("select#q1_1").change(function()
+$("select#q1_1_select").change(function()
 {
     console.log("make selected")
     $.getJSON("/survey/car/models/" + $(this).val(),{ajax: 'true'}, function(response)
@@ -46,8 +48,8 @@ $("select#q1_1").change(function()
         {
             options += '<option value="' + models[i] + '">' + models[i] + '</option>';
         }
-        $("select#q1_2").html(options);
-        $('#q1_2_section').removeClass('hidden');
+        $("select#q1_2_select").html(options);
+        $('#q1_2').removeClass('hidden');
     })
 });
 

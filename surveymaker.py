@@ -9,16 +9,14 @@ templates = {}
 
 def load_templates():
     templates_dir = os.path.join(root_dir, 'templates')
-    for name in ['answer_input', 'answer_radio', 'answer_select', 'question', 'survey']:
+    for name in ['answer_input', 'answer_radio', 'answer_select', 'answer_checkbox', 'survey']:
         templates[name] = Template(open(os.path.join(templates_dir, name + '.html')).read())
 
 def prepare_answer(id, answer):
     answer_type = answer['type']
     if answer_type == 'input':
         config = dict(id=id)
-    elif answer_type == 'radio':
-        config = dict(id=id, name=id, options=answer[u'options'])
-    elif answer_type == 'select':
+    elif answer_type in ('radio', 'checkbox', 'select'):
         config = dict(id=id, name=id, options=answer.get('options', []))
     else:
         raise Exception('Unknown answer type: ' + answer_type)
@@ -28,15 +26,16 @@ def prepare_answer(id, answer):
     return result
 
 def prepare_question(id, question):
+    hidden = question.get(u'hidden', False)
     answer = prepare_answer(id, question[u'answer'])
-    return dict(id=id, text=question[u'text'], answer=answer)
+    return dict(id=id, text=question[u'text'], answer=answer, hidden=hidden)
 
 def prepare_question_group(group_id, question_group):
-    result = []
-    for internal_id, question in enumerate(question_group):
+    result = {u'id': group_id, u'questions': []}
+    for internal_id, question in enumerate(question_group[u'questions']):
         question_id = str(group_id) if internal_id == 0 else '%d_%d' % (group_id, internal_id)
         question = prepare_question(question_id, question)
-        result.append(question)
+        result[u'questions'].append(question)
 
     return result
 
@@ -45,11 +44,8 @@ def prepare_survey(filename):
     survey_data = json.load(open(os.path.join(root_dir, filename)))
     question_groups = []
     for id, group in enumerate(survey_data['survey']):
-        question_group = group[u'questions']
-        question_groups.append(prepare_question_group(id, question_group))
-
-    #t = templates['question_container']
-    #result = t.render(question_group=question_groups[0])
+        group[u'id'] = id
+        question_groups.append(prepare_question_group(id, group))
 
     t = templates['survey']
     html = t.render(question_groups=question_groups)

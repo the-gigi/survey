@@ -28,6 +28,7 @@
                 {
                     "tag": "make",
                     "text": "What is the make of your car?",
+                    "hidden": true,
                     "answer":
                     {
                         "type" : "select",
@@ -37,10 +38,28 @@
                 },
                 {
                     "text": "What is the model of your car?",
+                    "hidden": true,
                     "answer":
                     {
                         "type" : "select",
                         "url": "/survey/cars/models/<make.value>"
+                    }
+                }
+            ]
+        },
+        {
+            "questions" : [
+                {
+                    "hidden": true,
+                    "text": "Where do you drive with your car?",
+                    "answer":
+                    {
+                        "type" : "checkbox",
+                        "options": [
+                            { "id": "beach", "value": "Beach" },
+                            { "id": "work",  "value": "Work" },
+                            { "id": "shopping",  "value": "Shopping" }
+                        ]
                     }
                 }
             ]

@@ -1,3 +1,9 @@
+"""
+http://evsurvey.its.ucdavis.edu/ccseev/admin/
+username: phev
+password: androidrulez
+"""
+
 import os
 from flask import ( Flask,
                     request,
@@ -17,10 +23,11 @@ def hello_world():
 
 @app.route('/survey')
 def survey():
+    # filename = os.path.join(app.root_path, 'static/survey.html')
+    # assert os.path.exists(filename)
+    # survey = open(filename).read()
     survey = prepare_survey('static\survey.json')
     return survey
-
-    #return render_template('survey.html')
 
 @app.route('/submitSurvey', methods = ['POST'])
 def process_survey():
