@@ -1,12 +1,9 @@
 import os
-from flask import ( Flask,
-                    request,
-                    url_for,
-                    render_template,
-                    jsonify)
+from flask import (Flask,
+                   request,
+                   jsonify)
 
 from data import cars
-
 from surveymaker import prepare_survey
 
 app = Flask(__name__)
@@ -17,9 +14,6 @@ def hello_world():
 
 @app.route('/survey')
 def survey():
-    # filename = os.path.join(app.root_path, 'static/survey.html')
-    # assert os.path.exists(filename)
-    # survey = open(filename).read()
     survey = prepare_survey('static/survey.json')
     return survey
 
