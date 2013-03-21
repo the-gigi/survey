@@ -1,3 +1,5 @@
+<ul class="plain-list">
 {% for option in options -%}
-    <input id="q{{ id }}_{{ option.id }}" type="radio" name="q{{ id }}_radio" value="{{ option.value }}">{{ option.value }}</input>
+    <li><input id="q{{ id }}{{ '_' + option.id if option.id else '' }}" type="radio" name="q{{ id }}_radio" value="{{ option.value }}">{{ option.value }}</input></li>
 {% endfor -%}
+</ul>
