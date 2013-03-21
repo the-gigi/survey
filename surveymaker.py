@@ -9,7 +9,7 @@ templates = {}
 
 def load_templates():
     templates_dir = os.path.join(root_dir, 'templates')
-    for name in ['answer_input', 'answer_radio', 'answer_select', 'answer_checkbox', 'survey']:
+    for name in ['answer_input', 'answer_radio', 'answer_select', 'answer_checkbox', 'survey', 'survey2']:
         templates[name] = Template(open(os.path.join(templates_dir, name + '.html')).read())
 
 def prepare_answer(id, answer):
@@ -18,6 +18,8 @@ def prepare_answer(id, answer):
         config = dict(id=id)
     elif answer_type in ('radio', 'checkbox', 'select'):
         config = dict(id=id, name=id, options=answer.get('options', []))
+    elif answer_type == 'custom':
+        return '[Answer Placeholder]'
     else:
         raise Exception('Unknown answer type: ' + answer_type)
 
@@ -39,16 +41,23 @@ def prepare_question_group(group_id, question_group):
 
     return result
 
+
+def prepare_page(page_id, page):
+    result = {u'id': page_id, u'question_groups' : []}
+    for group_id, group in enumerate(page[u'page']):
+        question_group = prepare_question_group(group_id, group)
+        result[u'question_groups'].append(question_group)
+    return result
+
 def prepare_survey(filename):
     load_templates()
-    survey_data = json.load(open(os.path.join(root_dir, filename)))
-    question_groups = []
-    for id, group in enumerate(survey_data['survey']):
-        group[u'id'] = id
-        question_groups.append(prepare_question_group(id, group))
+    survey = json.load(open(os.path.join(root_dir, filename)))
+    pages = []
+    for id, page in enumerate(survey['pages']):
+        pages.append(prepare_page(id, page))
 
-    t = templates['survey']
-    html = t.render(question_groups=question_groups)
+    t = templates['survey2']
+    html = t.render(pages=pages)
     soup = BeautifulSoup(html)
     return soup.prettify()
 

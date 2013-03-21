@@ -18,19 +18,20 @@
         <br>
         <span class="headsubtext">Public and Work Place Charging</span>
     </div>
-
     <div class="shadow main">
         <div id="pagecontainer">
             {%  for page in pages -%}
             <div id="page{{ page.id }}">
                 <form id="form{{ page.id }}">
                     <input type="hidden" value="{{ page.id }}" name="page" />
-                    {%  for group in page.questions_groups -%}
+                    {%  for group in page.question_groups -%}
                     <div id="g{{group.id}}" class="question_group {{ 'hidden' if group.hidden else '' }}">
                         {%  for question in group.questions -%}
                         <div id="q{{question.id}}" class="question {{ 'hidden' if question.hidden else '' }}">
+
                             <p>{{ question.id }}. {{ question.text }}</p>
                             {{ question.answer|indent }}
+
                         </div>
                         {%  endfor %}
                     </div>
@@ -49,142 +50,142 @@
     </div>
 </div>
 <div class="bottombar"><a href="#">Save and continue survey later</a></div>
-<script type="text/javascript" src="js/fmwk/jquery.js"></script>
-<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" src="js/common.js"></script>
-<script type="text/javascript">
-    $.getScript("php/ajax/pgchk.php");
-    var totalpages;
-    var currentpage = 0;
-    $(document).ready(function() {
-        $.ajax({
-            dataType: "json",
-            url: "php/ajax/getsection.php",
-            success: function(json) {
-//			console.log(json);
-                var questionnumber = --json.firstquestionnumber;
-                totalpages = json.pages.length-1;
+<!--<script type="text/javascript" src="js/fmwk/jquery.js"></script>-->
+<!--<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>-->
+<!--<script type="text/javascript" src="js/common.js"></script>-->
+<!--<script type="text/javascript">-->
+<!--$.getScript("php/ajax/pgchk.php");-->
+<!--var totalpages;-->
+<!--var currentpage = 0;-->
+<!--$(document).ready(function() {-->
+<!--$.ajax({-->
+<!--dataType: "json",-->
+<!--url: "php/ajax/getsection.php",-->
+<!--success: function(json) {-->
+<!--//			console.log(json);-->
+<!--var questionnumber = --json.firstquestionnumber;-->
+<!--totalpages = json.pages.length-1;-->
 
-                // download additional js files for the section
-                if (json.jsfiles != undefined) {
-                    for (var i=0; i<json.jsfiles.length; i++)
-                        $.getScript("js/sectionjs/"+json.jsfiles[i]);
-                }
+<!--// download additional js files for the section-->
+<!--if (json.jsfiles != undefined) {-->
+<!--for (var i=0; i<json.jsfiles.length; i++)-->
+<!--$.getScript("js/sectionjs/"+json.jsfiles[i]);-->
+<!--}-->
 
-                // go through each page array and render html
-                var previousqabc = 0;
-                for (var i=0; i<json.pages.length; i++) {
-                    var page = '<div id="page'+i.toString()+'" style="display: none;"><form id="form'+i.toString()+'"><input type="hidden" name="page" value="'+i.toString()+'" />';
-                    for (var j=0; j<json.pages[i].questions.length; j++) {
-                        var html = json.pages[i].questions[j].html;
-                        if (html.indexOf("|question number|") != -1) {
-                            if (json.pages[i].questions[j].abcaddon != '0') {
-                                if (previousqabc == 0) {
-                                    questionnumber++;
-                                    previousqabc = 1;
-                                }
+<!--// go through each page array and render html-->
+<!--var previousqabc = 0;-->
+<!--for (var i=0; i<json.pages.length; i++) {-->
+<!--var page = '<div id="page'+i.toString()+'" style="display: none;"><form id="form'+i.toString()+'"><input type="hidden" name="page" value="'+i.toString()+'" />';-->
+<!--for (var j=0; j<json.pages[i].questions.length; j++) {-->
+<!--var html = json.pages[i].questions[j].html;-->
+<!--if (html.indexOf("|question number|") != -1) {-->
+<!--if (json.pages[i].questions[j].abcaddon != '0') {-->
+<!--if (previousqabc == 0) {-->
+<!--questionnumber++;-->
+<!--previousqabc = 1;-->
+<!--}-->
 
-                                html = html.replace("|question number|", '<span class="lead">'+questionnumber+json.pages[i].questions[j].abcaddon+')</span>');
+<!--html = html.replace("|question number|", '<span class="lead">'+questionnumber+json.pages[i].questions[j].abcaddon+')</span>');-->
 
-                            } else {
-                                questionnumber++;
-                                html = html.replace("|question number|", '<span class="lead">'+questionnumber+')</span>');
-                                previousqabc = 0;
-                            }
-                        }
+<!--} else {-->
+<!--questionnumber++;-->
+<!--html = html.replace("|question number|", '<span class="lead">'+questionnumber+')</span>');-->
+<!--previousqabc = 0;-->
+<!--}-->
+<!--}-->
 
-                        html = html.replace(/\|input name\|/g, json.pages[i].questions[j].uniquename);
-                        page += html;
-                    };
+<!--html = html.replace(/\|input name\|/g, json.pages[i].questions[j].uniquename);-->
+<!--page += html;-->
+<!--};-->
 
-                    page += '</form></div>';
+<!--page += '</form></div>';-->
 
-                    $('#pagecontainer').append(page);
-                }
+<!--$('#pagecontainer').append(page);-->
+<!--}-->
 
-                $('#page0').show('slow');
-            }
-        });
-    });
+<!--$('#page0').show('slow');-->
+<!--}-->
+<!--});-->
+<!--});-->
 
-    function nextpage() {
-        if (validatepage(currentpage)) {
-            $.ajax({
-                type: "POST",
-                url: 'php/ajax/submitanswers.php',
-                data: $('#form'+currentpage).serialize()
-            });
+<!--function nextpage() {-->
+<!--if (validatepage(currentpage)) {-->
+<!--$.ajax({-->
+<!--type: "POST",-->
+<!--url: 'php/ajax/submitanswers.php',-->
+<!--data: $('#form'+currentpage).serialize()-->
+<!--});-->
 
-            if (currentpage < totalpages) {
-//			plus(perpercent);
-                $('#page'+currentpage).hide();
-                $('#page'+(currentpage+1)).show();
-                currentpage++;
-            } else if (currentpage == totalpages) {
-                $(window).unbind('beforeunload');
-            }
-        } else {
-            alert('Please finish filling out the page');
-        }
-    }
+<!--if (currentpage < totalpages) {-->
+<!--//			plus(perpercent);-->
+<!--$('#page'+currentpage).hide();-->
+<!--$('#page'+(currentpage+1)).show();-->
+<!--currentpage++;-->
+<!--} else if (currentpage == totalpages) {-->
+<!--$(window).unbind('beforeunload');-->
+<!--}-->
+<!--} else {-->
+<!--alert('Please finish filling out the page');-->
+<!--}-->
+<!--}-->
 
-    function backpage() {
-//	minus(perpercent);
-        if (currentpage > 0) {
-            $('#page'+currentpage).hide();
-            $('#page'+(currentpage-1)).show();
-            currentpage--;
-        }
-    }
+<!--function backpage() {-->
+<!--//	minus(perpercent);-->
+<!--if (currentpage > 0) {-->
+<!--$('#page'+currentpage).hide();-->
+<!--$('#page'+(currentpage-1)).show();-->
+<!--currentpage--;-->
+<!--}-->
+<!--}-->
 
-    function validatepage(page) {
-        var donefillingout = new Boolean(true);
-        $('#form'+page+' input:text:not(.skipcheck):enabled').each(function(index, element) { // check text inputs
-            if (donefillingout) {
-                if (element.value == "") {
-                    donefillingout = false;
-//				console.log(element);
-                }
-            }
-        });
+<!--function validatepage(page) {-->
+<!--var donefillingout = new Boolean(true);-->
+<!--$('#form'+page+' input:text:not(.skipcheck):enabled').each(function(index, element) { // check text inputs-->
+<!--if (donefillingout) {-->
+<!--if (element.value == "") {-->
+<!--donefillingout = false;-->
+<!--//				console.log(element);-->
+<!--}-->
+<!--}-->
+<!--});-->
 
-        if (donefillingout) { // check radio inputs
-            var radioname = -1;
-            var radiovalue = new Boolean(true);
+<!--if (donefillingout) { // check radio inputs-->
+<!--var radioname = -1;-->
+<!--var radiovalue = new Boolean(true);-->
 
-            $('#form'+page+' input:radio:not(.skipcheck):enabled').each(function(index, element) {
-                if (radioname != element.name) {
-                    if (!radiovalue)
-                        donefillingout = false;
-                    radioname = element.name;
-                    radiovalue = false;
-                }
+<!--$('#form'+page+' input:radio:not(.skipcheck):enabled').each(function(index, element) {-->
+<!--if (radioname != element.name) {-->
+<!--if (!radiovalue)-->
+<!--donefillingout = false;-->
+<!--radioname = element.name;-->
+<!--radiovalue = false;-->
+<!--}-->
 
-                if (element.checked)
-                    radiovalue = true;
-            });
-        }
+<!--if (element.checked)-->
+<!--radiovalue = true;-->
+<!--});-->
+<!--}-->
 
-        if (donefillingout) { // check checkboxes
-            $('#form'+page+'.checkthischeckbox').each(function() {
-                if ($(this).children('input:checked').length == 0)
-                    donefillingout = false;
-            });
-        }
+<!--if (donefillingout) { // check checkboxes-->
+<!--$('#form'+page+'.checkthischeckbox').each(function() {-->
+<!--if ($(this).children('input:checked').length == 0)-->
+<!--donefillingout = false;-->
+<!--});-->
+<!--}-->
 
 
-        $('#form'+page+' select:not(.skipcheck):enabled').each(function(index, element) { // check drop downs
-//		console.log(element);
-            if (element.value == '')
-                donefillingout = false;
-        });
+<!--$('#form'+page+' select:not(.skipcheck):enabled').each(function(index, element) { // check drop downs-->
+<!--//		console.log(element);-->
+<!--if (element.value == '')-->
+<!--donefillingout = false;-->
+<!--});-->
 
-        if (donefillingout)
-            return 1;
-        else
-            return 0;
-    }
+<!--if (donefillingout)-->
+<!--return 1;-->
+<!--else-->
+<!--return 0;-->
+<!--}-->
 
-</script>
+<!--</script>-->
 </body>
 </html>

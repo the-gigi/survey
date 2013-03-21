@@ -9,10 +9,6 @@ from surveymaker import prepare_survey
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
-    return 'Yeah, it works!!!'
-
-@app.route('/survey')
 def survey():
     survey = prepare_survey('static/survey.json')
     return survey
