@@ -1,0 +1,95 @@
+code: survey.js
+pages:
+- page:
+    question_groups:
+    - questions:
+      - answer:
+          action: populateDriversTable(<driver-count.value>)
+          options:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          tag: driver-count
+          type: select
+        text: How many drivers in your household?
+    - hidden: true
+      questions:
+      - answer:
+          tag: drivers-table
+          type: custom
+        text: How much do you expect each driver to use the car?
+    - hidden: true
+      questions:
+      - answer:
+          action: showQuestions([1, 2])
+          options:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - 5 or more
+          type: select
+        text:
+        - Other than your vehicle, how many vehicles does your household own or lease
+          and drive regularly
+        - (By vehicles we mean cars, trucks, vans, minivans, sport utility vehicles
+          - any of the sort of motor vehicles a household normally uses
+        - for a day to day travel. Please do not include motorcycles, recreational
+          vehicles, or motor homes.)
+      - answer:
+          options:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - 5 or more
+          type: select
+        text: Of these vehicles, how many did your household buy or lease new in the
+          last 5 years (model year 2007 or later)?
+      - answer:
+          options:
+          - No, the vehicle is an additional vehicle in the household.
+          - Yes, and I plan to sell the older vehicle.
+          - Yes, and I have already sold the older vehicle.
+          type: radio
+        text: Did you buy your vehicle to replace a vehicle you own(ed)?
+- page:
+    hidden: true
+    question_groups:
+    - questions:
+      - answer:
+          options:
+          - action: showQuestions([1]
+            id: 'yes'
+            value: 'Yes'
+          - action: hideQuestions([1,2]
+            id: 'no'
+            value: 'No'
+          type: radio
+        text: Do you have a car?
+      - answer:
+          action:
+            '*': js:showSections([2])
+          type: select
+          url: /survey/cars/makes
+        hidden: true
+        tag: make
+        text: What is the make of your car?
+      - answer:
+          type: select
+          url: /survey/cars/models/<make.value>
+        hidden: true
+        text: What is the model of your car?
+      - answer:
+          options:
+          - id: beach
+            value: Beach
+          - id: work
+            value: Work
+          - id: shopping
+            value: Shopping
+          type: checkbox
+        hidden: true
+        text: Where do you drive with your car?

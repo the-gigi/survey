@@ -1,5 +1,5 @@
 import os
-import json
+import yaml
 from jinja2 import Template
 from BeautifulSoup import BeautifulSoup
 
@@ -73,7 +73,7 @@ def prepare_page(page_id, page, initial_group_id):
 
 def prepare_survey(filename):
     load_templates()
-    survey = json.load(open(os.path.join(root_dir, filename)))
+    survey = yaml.load(open(os.path.join(root_dir, filename)))
     pages = []
     last_group_id = 0
     for id, page in enumerate(survey['pages']):
@@ -88,5 +88,5 @@ def prepare_survey(filename):
 
 def test():
     print os.getcwd()
-    s = prepare_survey('static\survey.json')
+    s = prepare_survey('static\survey.yaml')
     print s
