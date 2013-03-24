@@ -44,8 +44,10 @@ def prepare_answer(id, answer):
         # Use row index if needed
         for i, row in enumerate(rows):
             for cell in row:
-                if '%d' in cell['text']:
+                try:
                     cell['text'] = eval(cell['text'] % i)
+                except TypeError:
+                    pass
 
         config = dict(id=id, name=answer['tag'], rows=rows)
     elif answer_type == 'custom':
