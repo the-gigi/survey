@@ -1,8 +1,11 @@
 import os
+import copy
 import yaml
 from jinja2 import Template
 from BeautifulSoup import BeautifulSoup
 
+# so, I can use id as a variable name and not lose the id() function
+obj_id = id
 
 root_dir = os.path.dirname(__file__)
 templates = {}
@@ -10,9 +13,10 @@ templates = {}
 
 def load_templates():
     templates_dir = os.path.join(root_dir, 'templates')
-    for name in ['answer_input', 'answer_radio', 'answer_select', 'answer_checkbox', 'survey', 'survey2']:
-        templates[name] = Template(open(os.path.join(templates_dir, name + '.html')).read())
 
+    for filename in os.listdir(templates_dir):
+        name = os.path.splitext(filename)[0]
+        templates[name] = Template(open(os.path.join(templates_dir, filename)).read())
 
 def prepare_answer(id, answer):
     answer_type = answer['type']
@@ -31,6 +35,19 @@ def prepare_answer(id, answer):
         config = dict(id=id, name=id, options=options)
     elif answer_type in ('checkbox', 'select'):
         config = dict(id=id, name=id, options=answer.get('options', []))
+    elif answer_type == 'table':
+        row = [dict(text=c['text'], answer=prepare_answer(id, c['answer'])) for c in answer['row']]
+
+        # Create separate object for each row
+        rows = [copy.deepcopy(row) for i in range(answer['row_count'])]
+
+        # Use row index if needed
+        for i, row in enumerate(rows):
+            for cell in row:
+                if '%d' in cell['text']:
+                    cell['text'] = eval(cell['text'] % i)
+
+        config = dict(id=id, name=answer['tag'], rows=rows)
     elif answer_type == 'custom':
         return '[Answer Placeholder]'
     else:

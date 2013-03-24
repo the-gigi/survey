@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def survey():
-    survey = prepare_survey('static/survey.json')
+    survey = prepare_survey('static/survey.yaml')
     return survey
 
 @app.route('/submitSurvey', methods = ['POST'])

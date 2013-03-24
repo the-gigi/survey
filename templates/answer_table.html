@@ -1,0 +1,11 @@
+<table id="{{ id }}">
+    <tbody>
+        {% for row in rows %}
+        <tr id="{{ id }}{{ i }}">
+            {% for cell in row %}
+            <td>{{ cell.text }}</td><td>{{ cell.answer }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

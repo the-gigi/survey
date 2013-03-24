@@ -5,11 +5,7 @@
 }
 
 .questiontable {
-    margin-left: 30px;margin-bottom: 30px;text-align: center;
-}
-
-#drivers input {
-    width: 50px;
+    margin-left: 30px; margin-bottom: 30px; text-align: center;
 }
 
 .plain-list {
@@ -21,4 +17,11 @@
 .hidden
 {
     display: none
+}
+
+tr {
+    display: table-row;
+}
+td {
+    padding-left: 10px;
 }
