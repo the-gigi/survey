@@ -1,6 +1,6 @@
 function show(ids)
 {
-    for (var i = 0; i < makes.length; i++)
+    for (var i = 0; i < ids.length; i++)
     {
         var id = ids[i];
         $('#' + id).removeClass('hidden');
@@ -9,7 +9,7 @@ function show(ids)
 
 function hide(ids)
 {
-    for (var i = 0; i < makes.length; i++)
+    for (var i = 0; i < ids.length; i++)
     {
         var id = ids[i];
         $('#' + id).addClass('hidden');
@@ -27,4 +27,27 @@ function load(ids, url)
             $('#' + id).innerHTML(data[i]);
         }
     });
+}
+function DisplayDriversTable(count)
+{
+    var show_ids = [];
+    var hide_ids = [];
+    for (var i = 1; i <= 9; i++)
+    {
+        var curr_id = "driver_table_" + i;
+        if (i <= count)
+        {
+            show_ids.push(curr_id);
+        }
+        else
+        {
+            hide_ids.push(curr_id);
+        }
+    }
+
+    show(show_ids);
+    hide(hide_ids);
+
+    console.log("show_ids:" + show_ids);
+    console.log("hide_ids:" + hide_ids);
 }
