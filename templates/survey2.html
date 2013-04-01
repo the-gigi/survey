@@ -50,14 +50,16 @@
     </div>
 </div>
 <div class="bottombar"><a href="#">Save and continue survey later</a></div>
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="static/js/jquery.js"></script>
+<script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="static/js/common.js"></script>
+<script type="text/javascript" src="static/js/actions.js"></script>
+<script type="text/javascript" src="static/js/survey.js"></script>
 <script type="text/javascript">
-$.getScript("php/ajax/pgchk.php");
-var totalpages;
-var currentpage = 0;
-$(document).ready(function() {
+//$.getScript("php/ajax/pgchk.php");
+//var totalpages;
+//var currentpage = 0;
+//$(document).ready(function() {
 //    $.ajax({
 //        dataType: "json",
 //        url: "php/ajax/getsection.php",
@@ -106,86 +108,86 @@ $(document).ready(function() {
 //            $('#page0').show('slow');
 //        }
 //    });
-    $('#page0').show('slow');
-});
-
-function nextpage() {
-    if (validatepage(currentpage)) {
-        $.ajax({
-            type: "POST",
-            url: 'php/ajax/submitanswers.php',
-            data: $('#form'+currentpage).serialize()
-        });
-
-        if (currentpage < totalpages) {
-//			plus(perpercent);
-            $('#page'+currentpage).hide();
-            $('#page'+(currentpage+1)).show();
-            currentpage++;
-        } else if (currentpage == totalpages) {
-            $(window).unbind('beforeunload');
-        }
-    } else {
-        alert('Please finish filling out the page');
-    }
-}
-
-function backpage() {
-//	minus(perpercent);
-    if (currentpage > 0) {
-        $('#page'+currentpage).hide();
-        $('#page'+(currentpage-1)).show();
-        currentpage--;
-    }
-}
-
-function validatepage(page) {
-    var donefillingout = new Boolean(true);
-    $('#form'+page+' input:text:not(.skipcheck):enabled').each(function(index, element) { // check text inputs
-        if (donefillingout) {
-            if (element.value == "") {
-                donefillingout = false;
-//				console.log(element);
-            }
-        }
-    });
-
-    if (donefillingout) { // check radio inputs
-        var radioname = -1;
-        var radiovalue = new Boolean(true);
-
-        $('#form'+page+' input:radio:not(.skipcheck):enabled').each(function(index, element) {
-            if (radioname != element.name) {
-                if (!radiovalue)
-                    donefillingout = false;
-                radioname = element.name;
-                radiovalue = false;
-            }
-
-            if (element.checked)
-                radiovalue = true;
-        });
-    }
-
-    if (donefillingout) { // check checkboxes
-        $('#form'+page+'.checkthischeckbox').each(function() {
-            if ($(this).children('input:checked').length == 0)
-                donefillingout = false;
-        });
-    }
-
-
-    $('#form'+page+' select:not(.skipcheck):enabled').each(function(index, element) { // check drop downs
-//		console.log(element);
-        if (element.value == '')
-            donefillingout = false;
-    });
-
-    if (donefillingout)
-        return 1;
-    else
-        return 0;
-}
+//    $('#page0').show('slow');
+//});
+//
+//function nextpage() {
+//    if (validatepage(currentpage)) {
+//        $.ajax({
+//            type: "POST",
+//            url: 'php/ajax/submitanswers.php',
+//            data: $('#form'+currentpage).serialize()
+//        });
+//
+//        if (currentpage < totalpages) {
+////			plus(perpercent);
+//            $('#page'+currentpage).hide();
+//            $('#page'+(currentpage+1)).show();
+//            currentpage++;
+//        } else if (currentpage == totalpages) {
+//            $(window).unbind('beforeunload');
+//        }
+//    } else {
+//        alert('Please finish filling out the page');
+//    }
+//}
+//
+//function backpage() {
+////	minus(perpercent);
+//    if (currentpage > 0) {
+//        $('#page'+currentpage).hide();
+//        $('#page'+(currentpage-1)).show();
+//        currentpage--;
+//    }
+//}
+//
+//function validatepage(page) {
+//    var donefillingout = new Boolean(true);
+//    $('#form'+page+' input:text:not(.skipcheck):enabled').each(function(index, element) { // check text inputs
+//        if (donefillingout) {
+//            if (element.value == "") {
+//                donefillingout = false;
+////				console.log(element);
+//            }
+//        }
+//    });
+//
+//    if (donefillingout) { // check radio inputs
+//        var radioname = -1;
+//        var radiovalue = new Boolean(true);
+//
+//        $('#form'+page+' input:radio:not(.skipcheck):enabled').each(function(index, element) {
+//            if (radioname != element.name) {
+//                if (!radiovalue)
+//                    donefillingout = false;
+//                radioname = element.name;
+//                radiovalue = false;
+//            }
+//
+//            if (element.checked)
+//                radiovalue = true;
+//        });
+//    }
+//
+//    if (donefillingout) { // check checkboxes
+//        $('#form'+page+'.checkthischeckbox').each(function() {
+//            if ($(this).children('input:checked').length == 0)
+//                donefillingout = false;
+//        });
+//    }
+//
+//
+//    $('#form'+page+' select:not(.skipcheck):enabled').each(function(index, element) { // check drop downs
+////		console.log(element);
+//        if (element.value == '')
+//            donefillingout = false;
+//    });
+//
+//    if (donefillingout)
+//        return 1;
+//    else
+//        return 0;
+//}
 
 </script>
 </body>

@@ -19,6 +19,7 @@ def load_templates():
         templates[name] = Template(open(os.path.join(templates_dir, filename)).read())
 
 def prepare_answer(id, answer):
+    id = answer.get('tag', id)
     answer_type = answer['type']
     if answer_type == 'input':
         config = dict(id=id)
@@ -49,7 +50,7 @@ def prepare_answer(id, answer):
                 except TypeError:
                     pass
 
-        config = dict(id=id, name=answer['tag'], rows=rows)
+        config = dict(id=id, name=answer['tag'], rows=rows, hidden=answer['hidden'])
     elif answer_type == 'custom':
         return '[Answer Placeholder]'
     else:
@@ -93,17 +94,44 @@ def prepare_page(page_id, page, initial_group_id):
 def prepare_survey(filename):
     load_templates()
     survey = yaml.load(open(os.path.join(root_dir, filename)))
+    prepare_javascript(survey)
+    return prepare_html(survey)
+
+def prepare_html(survey):
     pages = []
     last_group_id = 0
     for id, page in enumerate(survey['pages']):
         pages.append(prepare_page(id, page[u'page'], last_group_id))
         last_group_id = pages[-1][u'question_groups'][-1][u'id'] + 1
-
     t = templates['survey2']
     html = t.render(pages=pages)
     soup = BeautifulSoup(html)
     return soup.prettify()
 
+def lookup_actions(survey):
+    actions = []
+    for page in survey['pages']:
+        for question_group in page['page']['question_groups']:
+            for question in question_group['questions']:
+                answer = question['answer']
+                if 'action' in answer:
+                    actions.append(answer)
+
+    return actions
+
+
+def add_action(action, js):
+    pass
+
+
+def prepare_javascript(survey):
+    actions = lookup_actions(survey)
+    js = ''
+    for action in actions:
+        add_action(action, js)
+
+    with open(os.path.join(root_dir, 'static/survey2.js'), 'w') as f:
+        f.write(js)
 
 def test():
     print os.getcwd()

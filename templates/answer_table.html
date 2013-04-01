@@ -1,7 +1,7 @@
 <table id="{{ id }}">
     <tbody>
         {% for row in rows %}
-        <tr id="{{ id }}{{ i }}">
+        <tr id="{{ id }}_{{ loop.index }}" class="{{ 'hidden' if hidden else '' }}">
             {% for cell in row %}
             <td>{{ cell.text }}</td><td>{{ cell.answer }}</td>
             {% endfor %}
