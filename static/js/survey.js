@@ -1,7 +1,7 @@
 
 $("#qdriver_count_select").change(function() {
     var value = $("#qdriver_count_select").val();
-    DisplayDriversTable(value);
+    displayDriversTable(value);
 });
 
 $("input#submitButton").click(function()

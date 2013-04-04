@@ -28,7 +28,7 @@ function load(ids, url)
         }
     });
 }
-function DisplayDriversTable(count)
+function displayDriversTable(count)
 {
     var show_ids = [];
     var hide_ids = [];

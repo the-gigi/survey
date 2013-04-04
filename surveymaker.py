@@ -3,6 +3,8 @@ import copy
 import yaml
 from jinja2 import Template
 from BeautifulSoup import BeautifulSoup
+from handlers import get_handler
+
 
 # so, I can use id as a variable name and not lose the id() function
 obj_id = id
@@ -109,29 +111,40 @@ def prepare_html(survey):
     return soup.prettify()
 
 def lookup_actions(survey):
+    def make_actions(answer):
+        events = dict(radio='click',
+                      input='change',
+                      checkbox='change',
+                      select='change')
+
+        event = events[answer['type']]
+        if answer['type'] == 'radio':
+            options = answer['options']
+            return [dict(id=o['tag'],
+                         event=event,
+                         handler=get_handler(o)) for o in options]
+        else:
+            return [dict(id='q%s_%s' % (answer['tag'], answer['type']),
+                         event=event,
+                         handler=get_handler(answer))]
+
     actions = []
     for page in survey['pages']:
         for question_group in page['page']['question_groups']:
             for question in question_group['questions']:
                 answer = question['answer']
                 if 'action' in answer:
-                    actions.append(answer)
-
+                    actions += make_actions(answer)
     return actions
-
-
-def add_action(action, js):
-    pass
 
 
 def prepare_javascript(survey):
     actions = lookup_actions(survey)
-    js = ''
-    for action in actions:
-        add_action(action, js)
+    t = templates['survey2_javascript']
+    result = t.render(actions=actions)
 
     with open(os.path.join(root_dir, 'static/survey2.js'), 'w') as f:
-        f.write(js)
+        f.write(result)
 
 def test():
     print os.getcwd()

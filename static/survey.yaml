@@ -4,9 +4,9 @@ pages:
     question_groups:
     - questions:
       - answer:
-          action: displayDriversTable(<driver_count.value>)
-          options: [' ', 1, 2, 3, 4, 5, 6, 7 ,8 ,9]
           tag: driver_count
+          action: displayDriversTable()
+          options: [' ', 1, 2, 3, 4, 5, 6, 7 ,8 ,9]
           type: select
         text: How many drivers in your household?
     - hidden: true
@@ -35,22 +35,23 @@ pages:
 
     - hidden: true
       questions:
-      - answer:
-          action: showQuestions([1, 2])
-          options: [' ', 1, 2, 3, 4, 5 or more]
-          type: select
-        text:
+      - text:
         - Other than your vehicle, how many vehicles does your household own or lease
           and drive regularly
         - (By vehicles we mean cars, trucks, vans, minivans, sport utility vehicles
           - any of the sort of motor vehicles a household normally uses
         - for a day to day travel. Please do not include motorcycles, recreational
           vehicles, or motor homes.)
-      - answer:
+        answer:
+          tag: additional_cars
+          action: show([1, 2])
           options: [' ', 1, 2, 3, 4, 5 or more]
           type: select
-        text: Of these vehicles, how many did your household buy or lease new in the
-          last 5 years (model year 2007 or later)?
+      - text: Of these vehicles, how many did your household buy or lease new in the
+                  last 5 years (model year 2007 or later)?
+        answer:
+          options: [' ', 1, 2, 3, 4, 5 or more]
+          type: select
       - answer:
           options:
           - No, the vehicle is an additional vehicle in the household.
@@ -62,30 +63,36 @@ pages:
     hidden: true
     question_groups:
     - questions:
-      - answer:
+      - text: Do you have a car?
+        answer:
+          tag: 'car_owner'
           options:
-          - action: showQuestions([1]
-            id: 'yes'
+          - action: show(['car_make'])
+            id: 'have_car_yes'
             value: 'Yes'
-          - action: hideQuestions([1,2]
-            id: 'no'
+          - action: hide(['car_make', 'car_model'])
+            id: 'have_car_no'
             value: 'No'
           type: radio
-        text: Do you have a car?
-      - answer:
-          action:
-            '*': js:showSections([2])
+
+      - text: What is the make of your car?
+        answer:
+          tag: 'car_make'
+          action: show(['car_model'])
           type: select
           url: /survey/cars/makes
         hidden: true
         tag: make
-        text: What is the make of your car?
-      - answer:
+
+      - text: What is the model of your car?
+        tag: 'car_model'
+        answer:
           type: select
           url: /survey/cars/models/<make.value>
         hidden: true
-        text: What is the model of your car?
-      - answer:
+
+      - text: Where do you drive with your car?
+        answer:
           options:
           - id: beach
             value: Beach
@@ -95,4 +102,4 @@ pages:
             value: Shopping
           type: checkbox
         hidden: true
-        text: Where do you drive with your car?
+
