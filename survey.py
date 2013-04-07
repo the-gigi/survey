@@ -5,6 +5,7 @@ from flask import (Flask,
 
 from data import cars
 from surveymaker import prepare_survey
+import surveymaker
 
 app = Flask(__name__)
 
@@ -17,7 +18,7 @@ def survey():
 def process_survey():
     return str(request.form)
 
-@app.route('/survey/car/makes')
+@app.route('/survey/car/makes/<year>')
 def carMakes():
     return jsonify(makes=cars.keys())
 
