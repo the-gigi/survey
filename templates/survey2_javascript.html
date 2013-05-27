@@ -1,5 +1,6 @@
 {%  for action in actions -%}
 $('#{{ action.id }}').{{ action.event}}(function() {
+  console.log('action handler called. id: {{ action.id }}, event: {{ action.event }}');
   {{ action.handler }}
 });
 

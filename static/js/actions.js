@@ -1,8 +1,10 @@
 function show(ids)
 {
+    console.log('show(' + ids + ')');
     for (var i = 0; i < ids.length; i++)
     {
         var id = ids[i];
+
         $('#' + id).removeClass('hidden');
     }
 }
@@ -13,6 +15,19 @@ function hide(ids)
     {
         var id = ids[i];
         $('#' + id).addClass('hidden');
+    }
+}
+
+function enable(id, enable)
+{
+    console.log('enable() here - id: ' + id + ', enable: ' + enable);
+    if (enable)
+    {
+        $('#' + id).removeAttr('disabled')
+    }
+    else
+    {
+        $('#' + id).attr('disabled', 'disabled');
     }
 }
 
@@ -28,6 +43,7 @@ function load(ids, url)
         }
     });
 }
+
 function displayDriversTable(count)
 {
     var show_ids = [];

@@ -4,6 +4,7 @@ import yaml
 from jinja2 import Template
 from BeautifulSoup import BeautifulSoup
 from handlers import get_handler
+from pprint import pprint as pp
 
 
 # so, I can use id as a variable name and not lose the id() function
@@ -29,12 +30,10 @@ def prepare_answer(id, answer):
         options = []
         for o in answer.get('options', []):
             if type(o) in (str, unicode):
-                o = {u'value': o}
-                options.append(o)
+                o = dict(value=o)
             else:
-                if not o.has_key(u'value'):
-                    assert False
-
+                assert o.has_key('value')
+            options.append(o)
         config = dict(id=id, name=id, options=options)
     elif answer_type in ('checkbox', 'select'):
         config = dict(id=id, name=id, options=answer.get('options', []))
@@ -53,6 +52,9 @@ def prepare_answer(id, answer):
                     pass
 
         config = dict(id=id, name=answer['tag'], rows=rows, hidden=answer['hidden'])
+    elif answer_type == 'map':
+        map_options = answer.get('map_options', [])
+        config = dict(id=id, name=id, options=map_options)
     elif answer_type == 'custom':
         return '[Answer Placeholder]'
     else:
@@ -115,15 +117,27 @@ def lookup_actions(survey):
         events = dict(radio='click',
                       input='change',
                       checkbox='change',
-                      select='change')
+                      select='change',
+                      map='')
 
-        event = events[answer['type']]
+        answer_type = answer['type']
+        if not answer_type in events or not 'tag' in answer:
+            return []
+
+        event = events[answer_type]
         if answer['type'] == 'radio':
             options = answer['options']
-            return [dict(id=o['tag'],
-                         event=event,
-                         handler=get_handler(o)) for o in options]
+            if any(not ('action' in o and 'tag' in o) for o in options):
+                return []
+            result = [dict(id='q%s_%s_%s' % (answer['tag'], o['tag'], answer['type']),
+                           event=event,
+                           handler=get_handler(o)) for o in options]
+
+            pp(result)
+            return result
         else:
+            if not 'action' in answer:
+                return []
             return [dict(id='q%s_%s' % (answer['tag'], answer['type']),
                          event=event,
                          handler=get_handler(answer))]
@@ -133,8 +147,7 @@ def lookup_actions(survey):
         for question_group in page['page']['question_groups']:
             for question in question_group['questions']:
                 answer = question['answer']
-                if 'action' in answer:
-                    actions += make_actions(answer)
+                actions += make_actions(answer)
     return actions
 
 
@@ -143,7 +156,7 @@ def prepare_javascript(survey):
     t = templates['survey2_javascript']
     result = t.render(actions=actions)
 
-    with open(os.path.join(root_dir, 'static/survey2.js'), 'w') as f:
+    with open(os.path.join(root_dir, 'static/js/survey2.js'), 'w') as f:
         f.write(result)
 
 def test():

@@ -10,7 +10,7 @@
     <link href="static/css/additional.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
+<div class="container" data-page="0" data-total-pages="{{ pages|length }}">
     <div class="head">
 		<span class="headtext">
 			California Plug-In Electric Vehicle Owner Survey March 2013
@@ -41,9 +41,8 @@
             {% endfor %}
         </div>
         <div class="nextbox">
-            <center><button class="btn" onclick="backpage();">Back</button> <button class="btn" onclick="nextpage();">Next</button></center>
-            <div class="progress progress-success progress-striped" style="
-		width: 300px; margin: 10px auto;">
+            <center><button id="prev-page" class="btn" onclick="prevPage();">Back</button> <button id="next-page" class="btn" onclick="nextPage();">Next</button></center>
+            <div class="progress progress-success progress-striped" style="width: 300px; margin: 10px auto;">
                 <div class="bar" style="width: 40%; background-color: #BBB;"></div>
             </div>
         </div>
@@ -51,10 +50,14 @@
 </div>
 <div class="bottombar"><a href="#">Save and continue survey later</a></div>
 <script type="text/javascript" src="static/js/jquery.js"></script>
-<script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="static/js/bootstrap.js"></script>
 <script type="text/javascript" src="static/js/common.js"></script>
 <script type="text/javascript" src="static/js/actions.js"></script>
-<script type="text/javascript" src="static/survey2.js"></script>
+<script type="text/javascript" src="static/js/page.js"></script>
+<script type="text/javascript" src="static/js/survey2.js"></script>
+<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD380nR6WXXvSUTwommcpaZAH1AVGzjHhE&libraries=places&sensor=false&region=US&v=3.11&libraries=places"></script>
+<script type="text/javascript" src="static/js/map.js"></script>
 <script type="text/javascript">
 //$.getScript("php/ajax/pgchk.php");
 //var totalpages;

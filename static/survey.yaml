@@ -67,18 +67,18 @@ pages:
         answer:
           tag: 'car_owner'
           options:
-          - action: show(['car_make'])
-            id: 'have_car_yes'
+          - action: show(['q4b'])
+            tag: 'yes'
             value: 'Yes'
-          - action: hide(['car_make', 'car_model'])
-            id: 'have_car_no'
+          - action: hide(['q4b', 'q4c'])
+            tag: 'no'
             value: 'No'
           type: radio
 
       - text: What is the make of your car?
         answer:
           tag: 'car_make'
-          action: show(['car_model'])
+          action: show(['q4c'])
           type: select
           url: /survey/cars/makes
         hidden: true
