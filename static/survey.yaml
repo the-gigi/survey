@@ -90,16 +90,17 @@ pages:
           type: select
           url: /survey/cars/models/<make.value>
         hidden: true
-
+- page:
+    hidden: true
+    question_groups:
+    - questions:
       - text: Where do you drive with your car?
         answer:
+          tag: 'driving_destinations'
+          type: map
           options:
-          - id: beach
-            value: Beach
-          - id: work
-            value: Work
-          - id: shopping
-            value: Shopping
-          type: checkbox
-        hidden: true
+          - zoom: 6
+          - lat: 36.6
+          - lng: -120.1
+
 

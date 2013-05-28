@@ -46,5 +46,20 @@ function prevPage()
     $('.container').attr('data-page', page_number - 1);
 }
 
-
-
+$(document).ready(function ()
+{
+    console.log('*** ready() here');
+    var maps = $("div[id$='map_canvas']");
+    for (var i = 0; i < maps.length; ++i)
+    {
+        var map = maps[i];
+        console.log('*** found map: ' + map.id);
+        console.log('*** map children:');
+        console.log(map.children);
+        if (map.children.length == 0)
+        {
+            console.log('*** creating map')
+            createMap(map.id, {}, {});
+        }
+    }
+});

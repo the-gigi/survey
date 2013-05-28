@@ -3,7 +3,7 @@ import copy
 import yaml
 from jinja2 import Template
 from BeautifulSoup import BeautifulSoup
-from handlers import get_handler
+from handlers import get_handler, get_create_map_handler
 from pprint import pprint as pp
 
 
@@ -118,14 +118,14 @@ def lookup_actions(survey):
                       input='change',
                       checkbox='change',
                       select='change',
-                      map='')
+                      map='load')
 
         answer_type = answer['type']
         if not answer_type in events or not 'tag' in answer:
             return []
 
         event = events[answer_type]
-        if answer['type'] == 'radio':
+        if answer_type == 'radio':
             options = answer['options']
             if any(not ('action' in o and 'tag' in o) for o in options):
                 return []
@@ -135,6 +135,12 @@ def lookup_actions(survey):
 
             pp(result)
             return result
+        elif answer_type == 'map':
+            map_id = 'q%s_map_canvas' % answer['tag']
+            return [dict(id='q%s_%s' % (answer['tag'], answer['type']),
+                         event=event,
+                         handler=get_create_map_handler(map_id, answer['options']))]
+
         else:
             if not 'action' in answer:
                 return []

@@ -1,7 +1,8 @@
 console.log("map.js here");
 
-function createMap(mapOptions, eventHandlers)
+function createMap(id, mapOptions, eventHandlers)
 {
+    console.log('createMap(id:' + id + ', mapOptions: ' + mapOptions);
     var defaults = {
         zoom: 6,
         lat: 36.6,    // California Latitude
@@ -23,7 +24,7 @@ function createMap(mapOptions, eventHandlers)
 
     console.log(mapOptions['center']);
     //geocoder = new google.maps.Geocoder();
-    var map_canvas = $('#map-canvas')[0];
+    var map_canvas = $('#' + id)[0];
     var map = new google.maps.Map(map_canvas, mapOptions);
 
     // Bind event handlers
@@ -63,34 +64,34 @@ function placeMarker(map, lat, lng, title, icon)
 
 $(document).ready(function()
 {
-    console.log("Document ready. Calling createMap()");
-    var lasVegas = {'lat': 36.10, 'lng': -115.08};
-    var eventHandlers = {
-//      click: function(event) {
-//        placeMarker(this, event.latLng.lat(), event.latLng.lng());
-//      }
-    };
-    var map = createMap(lasVegas, eventHandlers);
-    placeMarker(
-        map,
-        lasVegas.lat,
-        lasVegas.lng,
-        'Yeah, it works!',
-        'http://gmaps-samples.googlecode.com/svn/trunk/markers/blue/blank.png');
-
-    // When place-marker button is clicked make map place marker when it's clicked
-    $('#place-marker-button').click(function() {
-        $('#place-marker-button').attr("disabled", true);
-        var draggableCursor = map.get('draggableCursor');
-        map.setOptions({draggable: false});
-        map.setOptions({draggableCursor: 'pointer'});
-        google.maps.event.addListenerOnce(map, 'click', function(event) {
-            placeMarker(map, event.latLng.lat(), event.latLng.lng());
-            map.setOptions({draggable: true});
-            map.setOptions({draggableCursor: draggableCursor});
-            $('#place-marker-button').attr("disabled", false);
-        });
-    });
+//    console.log("Document ready. Calling createMap()");
+//    var lasVegas = {'lat': 36.10, 'lng': -115.08};
+//    var eventHandlers = {
+////      click: function(event) {
+////        placeMarker(this, event.latLng.lat(), event.latLng.lng());
+////      }
+//    };
+//    var map = createMap(lasVegas, eventHandlers);
+//    placeMarker(
+//        map,
+//        lasVegas.lat,
+//        lasVegas.lng,
+//        'Yeah, it works!',
+//        'http://gmaps-samples.googlecode.com/svn/trunk/markers/blue/blank.png');
+//
+//    // When place-marker button is clicked make map place marker when it's clicked
+//    $('#place-marker-button').click(function() {
+//        $('#place-marker-button').attr("disabled", true);
+//        var draggableCursor = map.get('draggableCursor');
+//        map.setOptions({draggable: false});
+//        map.setOptions({draggableCursor: 'pointer'});
+//        google.maps.event.addListenerOnce(map, 'click', function(event) {
+//            placeMarker(map, event.latLng.lat(), event.latLng.lng());
+//            map.setOptions({draggable: true});
+//            map.setOptions({draggableCursor: draggableCursor});
+//            $('#place-marker-button').attr("disabled", false);
+//        });
+//    });
 });
 
 //

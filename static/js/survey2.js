@@ -23,6 +23,11 @@ $('#qcar_make_select').change(function() {
   show(['q4c'])
 });
 
+$('#qdriving_destinations_map').load(function() {
+  console.log('action handler called. id: qdriving_destinations_map, event: load');
+  createMap(qdriving_destinations_map_canvas, {'lat': 36.6, 'lng': -120.1, 'zoom': 6}, {})
+});
+
 $('input#submitButton').click(function()
 {
     $('form#survey').submit();
